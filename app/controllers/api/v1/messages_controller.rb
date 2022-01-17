@@ -6,7 +6,7 @@ class Api::V1::MessagesController < ApplicationController
     @messages = Message.all
 
     @random = @messages[rand(0..(@messages.count - 1))]
-    
+
     render json: @random
   end
 
