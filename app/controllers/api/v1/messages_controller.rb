@@ -1,5 +1,14 @@
 class Api::V1::MessagesController < ApplicationController
-  before_action :set_message, only: [:show, :update, :destroy]
+  before_action :set_message, only: %i[show update destroy]
+
+  # GET /messages/random
+  def messages_random
+    @messages = Message.all
+
+    @random = @messages[rand(0..(@messages.count - 1))]
+
+    render json: @random
+  end
 
   # GET /messages
   def index
@@ -39,13 +48,14 @@ class Api::V1::MessagesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_message
-      @message = Message.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def message_params
-      params.require(:message).permit(:text)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_message
+    @message = Message.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def message_params
+    params.require(:message).permit(:text)
+  end
 end
